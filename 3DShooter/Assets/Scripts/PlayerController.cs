@@ -6,12 +6,15 @@ public class PlayerController : MonoBehaviour {
 
     public float speed;
     public float turnSpeed;
+    public int startHP;
 
     private Rigidbody rb;
+    private int hp;
 
 	// Use this for initialization
 	void Start () {
         rb = GetComponent<Rigidbody> ();
+        hp = startHP;
 	}
 
     // player can only move forwards and backwards, horizontal input adds torque
@@ -27,5 +30,14 @@ public class PlayerController : MonoBehaviour {
 
         rb.MoveRotation(rb.rotation * rotation);
         rb.MovePosition(rb.position + movement);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Coin")
+        {
+            Object.Destroy(other.gameObject);
+            GameController.instance.CollectCoin();
+        }
     }
 }
