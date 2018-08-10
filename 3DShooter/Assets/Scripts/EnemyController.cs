@@ -12,6 +12,7 @@ public class EnemyController : MonoBehaviour {
 
     public int hp;
 
+    public float playerRadius;
     public float fireRate;
     public float speed;
     public float turnSpeed;
@@ -25,6 +26,7 @@ public class EnemyController : MonoBehaviour {
 	void Start () 
     {
         rb = GetComponent<Rigidbody> ();
+        player = GameController.instance.player;
         InvokeRepeating("FireAtPlayer", 2.0f, fireRate);
 	}
 
@@ -34,16 +36,20 @@ public class EnemyController : MonoBehaviour {
     }
 
 
-    // rotate towards player then move
+    // rotate towards player then move, keep out of player radius
     private void FixedUpdate()
     {
-        Vector3 towardsPlayer = player.gameObject.transform.position - transform.position;
-        // length of radian is 0.0f
-        Vector3 direction = Vector3.RotateTowards(transform.forward, towardsPlayer, turnSpeed * Time.deltaTime, 0.0f);
-        rb.MoveRotation(Quaternion.LookRotation(direction));
+        Vector3 playerPosition = player.gameObject.transform.position;
 
-        Vector3 moveTowardsPlayer = Vector3.MoveTowards(transform.position, player.gameObject.transform.position, speed * Time.deltaTime);
-        rb.MovePosition(moveTowardsPlayer);
+        Vector3 towardsPlayer = playerPosition - transform.position;
+        Vector3 rotationDirection = Vector3.RotateTowards(transform.forward, towardsPlayer, turnSpeed * Time.deltaTime, 0.0f);
+        rb.MoveRotation(Quaternion.LookRotation(rotationDirection));
+
+        if (Vector3.Distance(transform.position, playerPosition) > playerRadius)
+        {
+            Vector3 moveTowardsPlayer = Vector3.MoveTowards(transform.position, playerPosition, speed * Time.deltaTime);
+            rb.MovePosition(moveTowardsPlayer);
+        }
     }
 
     // killed enemies leave a coin in their place
@@ -56,6 +62,7 @@ public class EnemyController : MonoBehaviour {
             if (hp == 0)
             {
                 Instantiate(coinPrefab, transform.position + raiseCoin, Quaternion.identity);
+                EnemyRespawner.instance.RespawnEnemy();
                 Destroy(this.gameObject);
             }
         }

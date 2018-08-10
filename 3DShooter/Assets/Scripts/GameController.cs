@@ -12,6 +12,8 @@ public class GameController : MonoBehaviour {
     // singleton class
     public static GameController instance;
 
+    public GameObject player;
+
     public Text coinText;
     public Text hpText;
     public Text scoreText;
