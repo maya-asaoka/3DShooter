@@ -4,22 +4,27 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
+    public GameObject playerBulletPrefab;
+
     public float speed;
     public float turnSpeed;
-    public int startHP;
 
     private Rigidbody rb;
-    private int hp;
+    private Vector3 raiseBullet = new Vector3(0, 1f, 0);
 
 	// Use this for initialization
 	void Start () {
         rb = GetComponent<Rigidbody> ();
-        hp = startHP;
 	}
 
     // player can only move forwards and backwards, horizontal input adds torque
     private void FixedUpdate()
     {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Instantiate(playerBulletPrefab, transform.position + raiseBullet, transform.rotation);
+        }
+
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
@@ -36,8 +41,13 @@ public class PlayerController : MonoBehaviour {
     {
         if (other.tag == "Coin")
         {
-            Object.Destroy(other.gameObject);
+            Destroy(other.gameObject);
             GameController.instance.CollectCoin();
+        }
+        if (other.tag == "EnemyBullet")
+        {
+            Destroy(other.gameObject);
+            GameController.instance.PlayerHit();
         }
     }
 }

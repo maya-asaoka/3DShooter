@@ -4,14 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+// Game is over when hp = 0
+// Game is won when currentCoins = coinsToWin
+
 public class GameController : MonoBehaviour {
 
     // singleton class
     public static GameController instance;
 
+    public Text coinText;
+    public Text hpText;
+    public Text scoreText;
+
+    public GameObject gameOverText;
+    public GameObject gameWonText;
     public int coinsToWin;
+    public int startHP;
 
     private int currentCoins;
+    private int hp;
     private bool gameOver = false;
 
     void Awake()
@@ -20,6 +31,12 @@ public class GameController : MonoBehaviour {
         {
             instance = this;
             currentCoins = 0;
+            hp = startHP;
+            coinText.text = "Coins: 0/" + coinsToWin;
+            hpText.text = "HP: " + startHP;
+
+            gameOverText.SetActive(false);
+            gameWonText.SetActive(false);
         }
         else if (instance != this)
         {
@@ -38,26 +55,38 @@ public class GameController : MonoBehaviour {
 
     public void CollectCoin()
     {
-        // TODO: update coin text
-        if (currentCoins == coinsToWin - 1)
+        currentCoins++;
+        coinText.text = "Coins: " + currentCoins + "/" + coinsToWin;
+        if (currentCoins == coinsToWin)
         {
             GameWon();
             gameOver = true;
         }
-        else 
+    }
+
+    public void PlayerHit()
+    {
+        hp--;
+        hpText.text = "HP: " + hp;
+        if (hp == 0)
         {
-            currentCoins++;
+            GameOver();
         }
     }
 
     void GameWon()
     {
-        // TODO
+        // time in seconds since game start rounded to nearest int
+        float time = Mathf.Round(Time.realtimeSinceStartup);
+        scoreText.text = "Your time: " + time + " seconds";
+        gameWonText.SetActive(true);
+        gameOver = true;
     }
 
     void GameOver()
     {
-        // TODO
+        gameOverText.SetActive(true);
+        gameOver = true;
     }
 
 }
