@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Coins spin in place
+
 public class CoinController : MonoBehaviour {
 
     public float spinSpeed;

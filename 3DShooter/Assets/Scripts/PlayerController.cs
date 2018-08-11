@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerController : MonoBehaviour {
 
@@ -10,23 +11,25 @@ public class PlayerController : MonoBehaviour {
     public float turnSpeed;
 
     private Rigidbody rb;
+
+    // raise bullets slightly up off the ground
     private Vector3 raiseBullet = new Vector3(0, 1f, 0);
 
-	// Use this for initialization
+	
 	void Start () {
         rb = GetComponent<Rigidbody> ();
 	}
 
-    // player can only move forwards and backwards, horizontal input adds torque
+    // player can only move straight forward and backward, horizontal input adds torque
     private void FixedUpdate()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (CrossPlatformInputManager.GetButtonDown("Fire1"))
         {
             Instantiate(playerBulletPrefab, transform.position + raiseBullet, transform.rotation);
         }
 
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        float horizontal = CrossPlatformInputManager.GetAxis("Horizontal");
+        float vertical = CrossPlatformInputManager.GetAxis("Vertical");
 
         Vector3 movement = transform.forward * vertical * speed * Time.deltaTime;
 

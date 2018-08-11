@@ -18,8 +18,10 @@ public class GameController : MonoBehaviour {
     public Text hpText;
     public Text scoreText;
 
+    // game over and game won popup windows
     public GameObject gameOverText;
     public GameObject gameWonText;
+
     public int coinsToWin;
     public int startHP;
 
@@ -55,6 +57,7 @@ public class GameController : MonoBehaviour {
         }
 	}
 
+    // Called from PlayerController when Player collies with a coin 
     public void CollectCoin()
     {
         currentCoins++;

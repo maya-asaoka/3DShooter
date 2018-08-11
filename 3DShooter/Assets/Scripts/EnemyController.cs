@@ -12,6 +12,7 @@ public class EnemyController : MonoBehaviour {
 
     public int hp;
 
+    // enemy will stay playerRadius away from player
     public float playerRadius;
     public float fireRate;
     public float speed;
@@ -19,10 +20,11 @@ public class EnemyController : MonoBehaviour {
 
     private Rigidbody rb;
 
+    // positions coins and bullets slightly up off the ground
     private Vector3 raiseCoin = new Vector3(0, 0.7f, 0);
     private Vector3 raiseBullet = new Vector3(0, 1f, 0);
 
-	// Use this for initialization
+
 	void Start () 
     {
         rb = GetComponent<Rigidbody> ();

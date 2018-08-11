@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Bullets move forward in straight line, stay on screen for max timeUntilDisappear seconds
+
 public class BulletController : MonoBehaviour {
 
     public float speed;
@@ -18,7 +20,6 @@ public class BulletController : MonoBehaviour {
         timeCreated = Time.time;
 	}
 	
-    // Bullets move forwards in straight line, stay on screen for max 5 seconds
 	void Update () 
     {
         if (Time.time - timeCreated > timeUntilDisappear)

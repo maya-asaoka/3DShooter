@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Respawns killed enemies at the origin
+// Respawns killed enemies at the origin after respawnTime seconds
 
 public class EnemyRespawner : MonoBehaviour {
 
@@ -35,6 +35,7 @@ public class EnemyRespawner : MonoBehaviour {
         }
     }
 
+    // called from EnemyController after Enemy object is destroyed
     public void RespawnEnemy()
     {
         respawnEnemyCalledTime = Time.time;
